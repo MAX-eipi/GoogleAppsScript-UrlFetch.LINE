@@ -7,6 +7,7 @@ export interface Request extends LINERequest {
     notificationDisabled?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Response extends LINEResponse {
 }
 

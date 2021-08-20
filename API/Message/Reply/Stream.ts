@@ -16,6 +16,7 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
         return this._error ? true : false;
     }
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
     private getHeader(request: Payload.Request): GoogleAppsScript.URL_Fetch.HttpHeaders {
         return {
             'content-Type': 'application/json; charset=utf-8',
@@ -23,6 +24,7 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
     getRawRequest(): GoogleAppsScript.URL_Fetch.URLFetchRequest {
         return {
             url: this.url,
@@ -31,6 +33,7 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
             payload: JSON.stringify(this.request),
         };
     }
+    // eslint-disable-next-line @typescript-eslint/camelcase
     setRawResponse(response: GoogleAppsScript.URL_Fetch.HTTPResponse): void {
         this._response = JSON.parse(response.getContentText());
         if (this._response.message) {
