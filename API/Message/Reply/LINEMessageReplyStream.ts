@@ -1,11 +1,8 @@
-import { ConcreteStream } from "../../../../UrlFetch/UrlFetch";
-import * as Payload from "./Payload";
-
-export class LINEMessagePushStream implements ConcreteStream<Payload.Request, Payload.Response> {
-    private readonly url = 'https://api.line.me/v2/bot/message/push';
+class LINEMessageReplyStream implements UrlFetch.ConcreteStream<UrlFetch_LINE.MessageReplyRequest, UrlFetch_LINE.MessageReplyResponse> {
+    private readonly url = 'https://api.line.me/v2/bot/message/reply';
     private readonly method = 'post';
 
-    constructor(readonly request: Payload.Request) { }
+    constructor(readonly request: UrlFetch_LINE.MessageReplyRequest) { }
 
     private _error = '';
     public get error(): string {
@@ -17,11 +14,11 @@ export class LINEMessagePushStream implements ConcreteStream<Payload.Request, Pa
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
-    private getHeader(request: Payload.Request): GoogleAppsScript.URL_Fetch.HttpHeaders {
+    private getHeader(request: UrlFetch_LINE.MessageReplyRequest): GoogleAppsScript.URL_Fetch.HttpHeaders {
         return {
             'content-Type': 'application/json; charset=utf-8',
             'authorization': 'Bearer ' + request.channelAccessToken,
-        }
+        };
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -31,8 +28,7 @@ export class LINEMessagePushStream implements ConcreteStream<Payload.Request, Pa
             headers: this.getHeader(this.request),
             method: this.method,
             payload: JSON.stringify(this.request),
-            muteHttpExceptions: true,
-        }
+        };
     }
     // eslint-disable-next-line @typescript-eslint/camelcase
     setRawResponse(response: GoogleAppsScript.URL_Fetch.HTTPResponse): void {
@@ -42,8 +38,8 @@ export class LINEMessagePushStream implements ConcreteStream<Payload.Request, Pa
         }
     }
 
-    private _response: Payload.Response = null;
-    public get response(): Payload.Response {
+    private _response: UrlFetch_LINE.MessageReplyResponse;
+    public get response(): UrlFetch_LINE.MessageReplyResponse {
         return this._response;
     }
 }

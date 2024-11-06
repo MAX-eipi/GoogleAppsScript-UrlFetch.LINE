@@ -1,11 +1,8 @@
-import * as Payload from "./Payload";
-import { ConcreteStream } from "../../../../UrlFetch/UrlFetch";
-
-export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, Payload.Response> {
-    private readonly url = 'https://api.line.me/v2/bot/message/reply';
+class LINEMessagePushStream implements UrlFetch.ConcreteStream<UrlFetch_LINE.MessagePushRequest, UrlFetch_LINE.MessagePushResponse> {
+    private readonly url = 'https://api.line.me/v2/bot/message/push';
     private readonly method = 'post';
 
-    constructor(readonly request: Payload.Request) { }
+    constructor(readonly request: UrlFetch_LINE.MessagePushRequest) { }
 
     private _error = '';
     public get error(): string {
@@ -17,11 +14,11 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
-    private getHeader(request: Payload.Request): GoogleAppsScript.URL_Fetch.HttpHeaders {
+    private getHeader(request: UrlFetch_LINE.MessagePushRequest): GoogleAppsScript.URL_Fetch.HttpHeaders {
         return {
             'content-Type': 'application/json; charset=utf-8',
             'authorization': 'Bearer ' + request.channelAccessToken,
-        }
+        };
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -31,6 +28,7 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
             headers: this.getHeader(this.request),
             method: this.method,
             payload: JSON.stringify(this.request),
+            muteHttpExceptions: true,
         };
     }
     // eslint-disable-next-line @typescript-eslint/camelcase
@@ -41,8 +39,8 @@ export class LINEMessageReplyStream implements ConcreteStream<Payload.Request, P
         }
     }
 
-    private _response: Payload.Response;
-    public get response(): Payload.Response {
+    private _response: UrlFetch_LINE.MessagePushResponse = null;
+    public get response(): UrlFetch_LINE.MessagePushResponse {
         return this._response;
     }
 }
